@@ -1,11 +1,21 @@
 const { createClient } = require('bedrock-protocol');
 
 const client = createClient({
-  host: 'Soyuser2908.aternos.me',   // IP o dominio del servidor Bedrock
+  host: 'Soyuser2908.aternos.me',   // Cambia por la IP o dominio del servidor Bedrock
   port: 39041,           // Puerto del servidor (default 19132)
   username: 'bot_user',    // Nombre del bot
-  // password: 'TU_PASSWORD', // Descomenta si tu servidor requiere contraseña
-  version: '1.19.0'      // Cambia por la versión Bedrock compatible
+  version: '1.21.92.1'   // ¡Versión más reciente!
+});
+
+client.on('join', () => {
+  console.log('¡Bot conectado al servidor de Minecraft Bedrock!');
+  // Aquí puedes poner tu código de caminar
+});
+client.on('disconnect', (reason) => {
+  console.log('Bot desconectado:', reason);
+});
+client.on('error', (err) => {
+  console.error('Error:', err);
 });
 
 client.on('join', () => {
