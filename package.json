@@ -2,6 +2,6 @@
   "name": "bedrock-bot",
   "version": "1.0.0",
   "dependencies": {
-    "bedrock-protocol": "github:bedrock-protocol/bedrock-protocol"
+    "bedrock-protocol": "https://github.com/bedrock-protocol/bedrock-protocol.git"
   }
 }
