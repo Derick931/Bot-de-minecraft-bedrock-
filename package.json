@@ -1,13 +1,13 @@
 {
   "name": "bedrock-bot",
   "version": "1.0.0",
-  "description": "Bot simple para Minecraft Bedrock usando bedrock-protocol",
+  "description": "Bot para Minecraft Bedrock (1.16.201 hasta 1.21.90+) usando bedrock-protocol",
   "main": "bedrockBot.js",
   "type": "commonjs",
   "scripts": {
     "start": "node bedrockBot.js"
   },
   "dependencies": {
-    "bedrock-protocol": "^1.19.0"
+    "bedrock-protocol": "*"
   }
 }
