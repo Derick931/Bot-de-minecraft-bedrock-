@@ -1,10 +1,15 @@
+// Bot para Minecraft Bedrock que se conecta y camina automáticamente
+// Instrucciones:
+// 1. Ejecuta: npm install
+// 2. Ejecuta: npm start
+
 const { Client } = require('@prismarinejs/bedrock-protocol')
 
 const client = new Client({
-  host: 'Soyuser2908.aternos.me',
-  port: 39041,
-  username: 'bot_user',
-  version: '1.21.92.1'
+  host: 'Soyuser2908.aternos.me', // IP/host del servidor Bedrock
+  port: 39041,                    // Puerto del servidor
+  username: 'bot_user',           // Nombre del bot (puedes cambiarlo)
+  version: '1.21.92.1'            // Versión exacta del protocolo
 })
 
 let pos = { x: 0, y: 0, z: 0 }
@@ -33,7 +38,7 @@ client.on('move_player', (packet) => {
 })
 
 function caminarHaciaAdelante() {
-  // Ejemplo: mueve el bot hacia adelante en el eje X
+  // Mueve el bot hacia adelante en el eje X
   pos.x += 1
 
   client.queue('move_player', {
@@ -49,6 +54,10 @@ function caminarHaciaAdelante() {
     tick: client.tick
   })
 
+  console.log(`Bot caminó a la posición X: ${pos.x}, Y: ${pos.y}, Z: ${pos.z}`)
+  // Llama de nuevo para seguir avanzando
+  setTimeout(caminarHaciaAdelante, 1000)
+}
   console.log(`Bot caminó a la posición X: ${pos.x}, Y: ${pos.y}, Z: ${pos.z}`)
   // Llama de nuevo para seguir avanzando
   setTimeout(caminarHaciaAdelante, 1000)
