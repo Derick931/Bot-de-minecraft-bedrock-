@@ -6,6 +6,6 @@
     "start": "node bot-caminar.js"
   },
   "dependencies": {
-    "bedrock-protocol": "^1.21.92.1"
+    "bedrock-protocol": "^1.18.0"
   }
 }
