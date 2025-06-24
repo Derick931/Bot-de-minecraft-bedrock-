@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bot AFK Minecraft Bedrock</title>
+  <style>
+    body { font-family: sans-serif; background: #111; color: white; text-align: center; padding: 40px; }
+    input, button { padding: 10px; font-size: 16px; margin: 10px; width: 300px; }
+    button { background: #1db954; color: white; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Bot AFK para Minecraft Bedrock</h1>
+  <form id="botForm">
+    <input type="text" name="botName" placeholder="Nombre del bot" required /><br />
+    <input type="text" name="ip" placeholder="IP del servidor" required /><br />
+    <input type="number" name="port" placeholder="Puerto (Ej: 19132)" required /><br />
+    <button type="submit">Conectar</button>
+  </form>
+
+  <script>
+    document.getElementById('botForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        botName: form.botName.value,
+        ip: form.ip.value,
+        port: parseInt(form.port.value)
+      };
+      await fetch('/start-bot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      alert('Bot enviado al servidor');
+      form.reset();
+    });
+  </script>
+</body>
+</html>
