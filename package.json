@@ -1,20 +1,13 @@
-const bedrock = require('bedrock-protocol')
-
-const client = bedrock.createClient({
-  host: 'Soyuser2908.aternos.me', // Cambia por la IP/host de tu servidor Bedrock
-  port: 39041,                    // Puerto de tu servidor
-  username: 'bot_user',           // Cambia el nombre si lo deseas
-  version: '1.21.90'              // Cambia por la versión exacta de tu servidor
-})
-
-client.on('join', () => {
-  console.log('¡Bot conectado al servidor de Minecraft Bedrock!')
-})
-
-client.on('disconnect', (reason) => {
-  console.log('Bot desconectado:', reason)
-})
-
-client.on('error', (err) => {
-  console.error('Error:', err)
-})
+{
+  "name": "bedrock-bot",
+  "version": "1.0.0",
+  "description": "Bot simple para Minecraft Bedrock usando bedrock-protocol",
+  "main": "bedrockBot.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node bedrockBot.js"
+  },
+  "dependencies": {
+    "bedrock-protocol": "^3.46.0"
+  }
+}
