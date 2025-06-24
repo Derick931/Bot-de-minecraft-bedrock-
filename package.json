@@ -1,0 +1,11 @@
+{
+  "name": "bedrock-bot",
+  "version": "1.0.0",
+  "main": "bot-caminar.js",
+  "scripts": {
+    "start": "node bot-caminar.js"
+  },
+  "dependencies": {
+    "bedrock-protocol": "^1.16.0"
+  }
+}
