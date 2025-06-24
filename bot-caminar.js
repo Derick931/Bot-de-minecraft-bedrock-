@@ -2,13 +2,13 @@
 // 1. Ejecuta: npm install
 // 2. Ejecuta: npm start
 
-const { createClient } = require('bedrock-protocol');
+const bedrock = require('bedrock-protocol');
 
-const client = createClient({
-  host: 'Soyuser2908.aternos.me', // IP/host del servidor Bedrock
-  port: 39041,                    // Puerto del servidor
-  username: 'bot_user',           // Nombre del bot (puedes cambiarlo)
-  version: '1.21.92.1'            // Versión exacta del protocolo
+const client = bedrock.createClient({
+  host: 'Soyuser2908.aternos.me', // Cambia por la IP/host de tu servidor Bedrock
+  port: 39041,                    // Puerto de tu servidor
+  username: 'bot_user',           // Cambia el nombre si lo deseas
+  version: '1.21.90'              // Cambia por la versión exacta de tu servidor
 });
 
 client.on('join', () => {
@@ -24,6 +24,7 @@ client.on('error', (err) => {
   console.error('Error:', err);
 });
 
+// Hace que el bot camine hacia adelante continuamente
 function caminarAdelante() {
   setInterval(() => {
     client.queue('player_auth_input', {
