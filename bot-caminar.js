@@ -1,10 +1,10 @@
 const bedrock = require('bedrock-protocol')
 
 const client = bedrock.createClient({
-  host: 'Soyuser2908.aternos.me', // Cambia por la IP/host de tu servidor Bedrock
+  host: 'Soyuser2908.aternos.me', // Tu IP o dominio
   port: 39041,                    // Puerto de tu servidor
   username: 'bot_user',           // Cambia el nombre si lo deseas
-  version: '1.21.90'              // Cambia por la versión exacta de tu servidor
+  version: '1.21.90'              // Pon exactamente la versión de tu servidor
 })
 
 client.on('join', () => {
