@@ -7,27 +7,31 @@ const client = bedrock.createClient({
   version: '1.21.90'
 });
 
-let currentPosition = { x: 0, y: 0, z: 0 }; // Posición inicial
+let currentPosition = null; // empieza null
 
 client.on('join', () => {
   console.log('¡Bot conectado al servidor de Minecraft Bedrock!');
 
-  // Cada 15 segundos mueve ligeramente el bot para evitar desconexión por AFK
+  // Solo manda movimiento si currentPosition tiene valor
   setInterval(() => {
-    client.write('move_player', {
-      pitch: 0,
-      yaw: 0,
-      position: {
-        x: currentPosition.x + 0.1, // mueve un poco en X
-        y: currentPosition.y,
-        z: currentPosition.z
-      },
-      onGround: true
-    });
+    if (currentPosition) {
+      client.write('move_player', {
+        pitch: 0,
+        yaw: 0,
+        position: {
+          x: currentPosition.x + 0.1, 
+          y: currentPosition.y,
+          z: currentPosition.z
+        },
+        onGround: true
+      });
+      // Actualiza posición para que el movimiento siga
+      currentPosition.x += 0.1;
+    }
   }, 15000);
 });
 
-// Actualiza la posición cuando el servidor envía un movimiento
+// Captura posición del servidor para tener datos válidos
 client.on('move_player', (packet) => {
   currentPosition = packet.position;
 });
@@ -39,4 +43,5 @@ client.on('disconnect', (reason) => {
 client.on('error', (err) => {
   console.error('Error:', err);
 });
+
 
