@@ -1,3 +1,4 @@
+You said:
 const bedrock = require('bedrock-protocol');
 
 const client = bedrock.createClient({
@@ -7,33 +8,8 @@ const client = bedrock.createClient({
   version: '1.21.90'
 });
 
-let currentPosition = null; // empieza null
-
 client.on('join', () => {
   console.log('¡Bot conectado al servidor de Minecraft Bedrock!');
-
-  // Solo manda movimiento si currentPosition tiene valor
-  setInterval(() => {
-    if (currentPosition) {
-      client.write('move_player', {
-        pitch: 0,
-        yaw: 0,
-        position: {
-          x: currentPosition.x + 0.1, 
-          y: currentPosition.y,
-          z: currentPosition.z
-        },
-        onGround: true
-      });
-      // Actualiza posición para que el movimiento siga
-      currentPosition.x += 0.1;
-    }
-  }, 15000);
-});
-
-// Captura posición del servidor para tener datos válidos
-client.on('move_player', (packet) => {
-  currentPosition = packet.position;
 });
 
 client.on('disconnect', (reason) => {
@@ -43,5 +19,3 @@ client.on('disconnect', (reason) => {
 client.on('error', (err) => {
   console.error('Error:', err);
 });
-
-
