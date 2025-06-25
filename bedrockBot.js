@@ -9,6 +9,7 @@ const client = bedrock.createClient({
 
 client.on('join', () => {
   console.log('¡Bot conectado al servidor de Minecraft Bedrock!');
+  client.setControlState('forward', true); // Caminar hacia adelante sin fin
 });
 
 client.on('disconnect', (reason) => {
@@ -18,4 +19,3 @@ client.on('disconnect', (reason) => {
 client.on('error', (err) => {
   console.error('Error:', err);
 });
-
