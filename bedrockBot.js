@@ -1,4 +1,3 @@
-You said:
 const bedrock = require('bedrock-protocol');
 
 const client = bedrock.createClient({
