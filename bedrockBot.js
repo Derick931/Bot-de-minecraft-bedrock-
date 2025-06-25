@@ -1,8 +1,5 @@
 const bedrock = require('bedrock-protocol');
 
-let reconnectTimeout;
-let afkInterval;
-
 const client = bedrock.createClient({
   host: 'Soyuser2908.aternos.me',
   port: 39041,
@@ -10,42 +7,36 @@ const client = bedrock.createClient({
   version: '1.21.90'
 });
 
+let currentPosition = { x: 0, y: 0, z: 0 }; // Posición inicial
+
 client.on('join', () => {
   console.log('¡Bot conectado al servidor de Minecraft Bedrock!');
 
-  // Movimiento simple para evitar AFK
-  afkInterval = setInterval(() => {
+  // Cada 15 segundos mueve ligeramente el bot para evitar desconexión por AFK
+  setInterval(() => {
     client.write('move_player', {
-      pitch: Math.sin(Date.now() / 1000) * 10,
+      pitch: 0,
       yaw: 0,
-      position: client.position,
+      position: {
+        x: currentPosition.x + 0.1, // mueve un poco en X
+        y: currentPosition.y,
+        z: currentPosition.z
+      },
       onGround: true
     });
   }, 15000);
 });
 
-client.on('chat', (packet) => {
-  const message = packet.message.toLowerCase();
-  if (message.includes('salte bot')) {
-    console.log('Comando recibido: desconectando bot...');
-    clearInterval(afkInterval);
-    client.disconnect('Comando de salida recibido');
-    process.exit(0); // Opcional para cerrar el proceso
-  }
+// Actualiza la posición cuando el servidor envía un movimiento
+client.on('move_player', (packet) => {
+  currentPosition = packet.position;
 });
 
 client.on('disconnect', (reason) => {
   console.log('Bot desconectado:', reason);
-  clearInterval(afkInterval);
-
-  // Reconectar después de 5 segundos
-  reconnectTimeout = setTimeout(() => {
-    console.log('Reconectando bot...');
-    // Como el cliente original es constante, aquí tendrías que reiniciar el proceso o implementar reconexión
-    process.exit(1); // Este es un método simple para reiniciar si usas PM2 o similar
-  }, 5000);
 });
 
 client.on('error', (err) => {
   console.error('Error:', err);
 });
+
