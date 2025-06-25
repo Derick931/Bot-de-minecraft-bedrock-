@@ -1,4 +1,5 @@
 const bedrock = require('bedrock-protocol');
+const http = require('http');
 
 const client = bedrock.createClient({
   host: 'Soyuser2908.aternos.me',
@@ -7,25 +8,29 @@ const client = bedrock.createClient({
   version: '1.21.90'
 });
 
-let lastPingTimestamp = 0;
-let pingInterval;
-
 client.on('join', () => {
   console.log('¡Bot conectado al servidor de Minecraft Bedrock!');
-  startPing();
 });
 
 client.on('disconnect', (reason) => {
   console.log('Bot desconectado:', reason);
-  stopPing();
-  // Puedes agregar reconexión aquí si quieres
 });
 
 client.on('error', (err) => {
   console.error('Error:', err);
-  stopPing();
-  // Puedes agregar reconexión aquí si quieres
 });
+
+// Servidor HTTP simple para UptimeRobot
+const server = http.createServer((req, res) => {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Bot activo');
+});
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Servidor HTTP escuchando en el puerto ${PORT}`);
+});
+
 
 client.on('raknet:packet', (packet) => {
   if (packet.name === 'unconnectedPong') {
