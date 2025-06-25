@@ -1,3 +1,5 @@
+require('./keep_alive.js');
+
 const bedrock = require('bedrock-protocol');
 
 const client = bedrock.createClient({
