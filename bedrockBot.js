@@ -1,16 +1,10 @@
 const bedrock = require('bedrock-protocol');
 const http = require('http');
-const OpenAI = require('openai');
-require('dotenv').config();
 
 const SERVER_HOST = 'Soyuser2908.aternos.me';
 const SERVER_PORT = 39041;
 const USERNAME = 'bot_user';
 const VERSION = '1.21.90';
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
 
 let client;
 
@@ -28,6 +22,7 @@ function connectBot() {
 
   client.on('disconnect', (reason) => {
     console.log('Bot desconectado:', reason);
+    // Reconectar tras 5 segundos
     setTimeout(() => {
       console.log('Reconectando...');
       connectBot();
@@ -38,40 +33,17 @@ function connectBot() {
     console.error('Error:', err);
   });
 
-  // Responder con ChatGPT
-  client.on('text', async (packet) => {
-    const msg = packet.message;
-    if (!msg || typeof msg !== 'string') return;
-    if (msg.includes(USERNAME)) return;
-
-    try {
-      const response = await openai.chat.completions.create({
-        model: 'gpt-4o', // o 'gpt-3.5-turbo'
-        messages: [
-          { role: 'system', content: 'Eres un bot de Minecraft que responde con frases cortas y naturales.' },
-          { role: 'user', content: msg },
-        ],
-        max_tokens: 24,
-      });
-
-      const reply = response.choices[0].message.content.trim();
-      client.write('text', { message: reply });
-    } catch (err) {
-      console.error('Error al usar OpenAI:', err.message);
-    }
-  });
-
-  // Ping para mantener conexión
+  // Enviar ping cada 15 segundos para evitar timeout
   setInterval(() => {
-    if (client?.session?.connected) {
+    if (client && client.session && client.session.connected) {
       client.ping()
-        .then(() => console.log('Ping enviado'))
+        .then(() => console.log('Ping enviado para mantener conexión'))
         .catch(err => console.error('Error en ping:', err));
     }
   }, 15000);
 }
 
-// Servidor HTTP (para UptimeRobot u otros)
+// Crear servidor HTTP para UptimeRobot
 const server = http.createServer((req, res) => {
   res.writeHead(200);
   res.end('Bot is alive');
@@ -79,11 +51,8 @@ const server = http.createServer((req, res) => {
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-  console.log(`Servidor HTTP activo en puerto ${PORT}`);
+  console.log(Servidor HTTP activo en puerto ${PORT});
 });
 
 // Iniciar bot
 connectBot();
-
-connectBot();
-
