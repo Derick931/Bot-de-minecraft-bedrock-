@@ -8,10 +8,11 @@ const SERVER_PORT = 39041;
 const USERNAME = 'bot_user';
 const VERSION = '1.21.90';
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'TU_API_KEY_AQUI'; // ¡Pon tu clave en variable entorno!
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY || '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'; // ¡Pon tu clave en variable entorno!
+const { Configuration, OpenAIApi } = require('openai');
 
 const configuration = new Configuration({
-  apiKey: OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
