@@ -1,16 +1,13 @@
 {
   "name": "bedrock-bot",
   "version": "1.5.2",
-  "description": "Bot simple para Minecraft Bedrock usando bedrock-protocol y OpenAI",
+  "description": "Bot simple para Minecraft Bedrock usando bedrock-protocol",
   "main": "bedrockBot.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node bedrockBot.js",
-    "install:all": "npm install"
+    "start": "node bedrockBot.js"
   },
   "dependencies": {
-    "bedrock-protocol": "^3.46.0",
-    "openai": "^4.27.0",
-    "dotenv": "^16.3.1"
+    "bedrock-protocol": "^3.46.0"
   }
 }
