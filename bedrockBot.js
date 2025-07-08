@@ -4,7 +4,7 @@ const http = require('http');
 const SERVER_HOST = '104.129.245.34';
 const SERVER_PORT = 31499;
 const USERNAME = 'bot_user';
-const VERSION = '1.21.90';
+const VERSION = '1.21.93';
 
 let client;
 
