@@ -1,8 +1,8 @@
 const bedrock = require('bedrock-protocol');
 const http = require('http');
 
-const SERVER_HOST = 'Soyuser2908.aternos.me';
-const SERVER_PORT = 39041;
+const SERVER_HOST = '104.129.245.34';
+const SERVER_PORT = 30519;
 const USERNAME = 'bot_user';
 const VERSION = '1.21.90';
 
