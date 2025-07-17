@@ -4,7 +4,7 @@ const http = require('http');
 const SERVER_HOST = 'vicky.hidencloud.com';
 const SERVER_PORT = 25526;
 const USERNAME = 'bot_user';
-const VERSION = '1.21.93';
+const VERSION = '1.21.94';
 
 let client;
 
