@@ -4,7 +4,7 @@ const http = require('http');
 const SERVER_HOST = 'vicky.hidencloud.com';
 const SERVER_PORT = 25526;
 const USERNAME = 'bot_user';
-const VERSION = '1.21.94'; // Usa la versión exacta del server para evitar errores
+const VERSION = '1.21.94'; // Usa la versión real del server
 
 let client;
 let pingInterval = null;
@@ -27,12 +27,11 @@ function connectBot() {
 
   client.once('join', () => {
     log('✅ ¡Bot conectado al servidor de Minecraft Bedrock!');
-    reconnectAttempts = 0; // Resetea el contador de reconexión
+    reconnectAttempts = 0; // Reset
 
-    // Limpia intervalos anteriores
+    // Limpiar ping anterior
     if (pingInterval) clearInterval(pingInterval);
 
-    // Crea el intervalo de ping
     pingInterval = setInterval(() => {
       if (client && client.session && client.session.connected) {
         client.ping()
@@ -48,9 +47,9 @@ function connectBot() {
 
     reconnectAttempts++;
     if (reconnectAttempts > MAX_RECONNECT_ATTEMPTS) {
-      log(`🚫 Demasiados intentos de reconexión. Esperando 60 segundos antes de reintentar...`);
+      log(`🚫 Demasiados intentos de reconexión. Esperando 60 segundos...`);
       setTimeout(connectBot, 60000);
-      reconnectAttempts = 0; // Opcional: reinicia el contador
+      reconnectAttempts = 0;
     } else {
       log(`🔁 Reconectando en 5 segundos... (Intento ${reconnectAttempts})`);
       setTimeout(connectBot, 5000);
@@ -62,19 +61,13 @@ function connectBot() {
   });
 }
 
-// Crear servidor HTTP para UptimeRobot o Render
+// Servidor HTTP
 const PORT = process.env.PORT || 3000;
 http.createServer((req, res) => {
   res.writeHead(200);
   res.end('Bot is alive');
 }).listen(PORT, () => {
   log(`🌐 Servidor HTTP activo en puerto ${PORT}`);
-});
-
-// Iniciar el bot
-connectBot();
-
-
 });
 
 // Iniciar bot
