@@ -8,15 +8,18 @@ const VERSION = '1.21.93'; // Usa la versión real del server
 
 let client;
 let pingInterval = null;
+let moveInterval = null;
 let reconnectAttempts = 0;
 const MAX_RECONNECT_ATTEMPTS = 10;
+
+let position = { x: 0, y: 0, z: 0 }; // Posición actual del bot
 
 function log(message) {
   console.log(`[${new Date().toISOString()}] ${message}`);
 }
 
 function connectBot() {
-  log('Intentando conectar el bot...');
+  log('🟡 Intentando conectar el bot...');
 
   client = bedrock.createClient({
     host: SERVER_HOST,
@@ -25,13 +28,18 @@ function connectBot() {
     version: VERSION,
   });
 
-  client.once('join', () => {
-    log('✅ ¡Bot conectado al servidor de Minecraft Bedrock!');
-    reconnectAttempts = 0; // Reset
+  client.once('spawn', () => {
+    log('✅ ¡Bot conectado y spawneado en el servidor!');
+    reconnectAttempts = 0;
 
-    // Limpiar ping anterior
+    // Guardar posición inicial del bot
+    position = client.entity.position;
+
+    // Limpia intervals anteriores
     if (pingInterval) clearInterval(pingInterval);
+    if (moveInterval) clearInterval(moveInterval);
 
+    // Mantener conexión con ping
     pingInterval = setInterval(() => {
       if (client && client.session && client.session.connected) {
         client.ping()
@@ -39,19 +47,22 @@ function connectBot() {
           .catch(err => log(`⚠️ Error en ping: ${err}`));
       }
     }, 15000);
+
+    // Comenzar a caminar hacia adelante
+    startWalking();
   });
 
   client.on('disconnect', (reason) => {
     log(`❌ Bot desconectado: ${reason}`);
     if (pingInterval) clearInterval(pingInterval);
+    if (moveInterval) clearInterval(moveInterval);
 
     reconnectAttempts++;
     if (reconnectAttempts > MAX_RECONNECT_ATTEMPTS) {
-      log(`🚫 Demasiados intentos de reconexión. Esperando 60 segundos...`);
+      log('🚫 Demasiados intentos de reconexión. Esperando 60 segundos...');
       setTimeout(connectBot, 60000);
       reconnectAttempts = 0;
-    } else {
-      log(`🔁 Reconectando en 5 segundos... (Intento ${reconnectAttempts})`);
+    } else {log(`🔁 Reconectando en 5 segundos... (Intento ${reconnectAttempts})`);
       setTimeout(connectBot, 5000);
     }
   });
@@ -61,14 +72,42 @@ function connectBot() {
   });
 }
 
-// Servidor HTTP
+// Función para simular caminar hacia adelante
+function startWalking() {
+  if (!client || !client.entity || !client.entity.position) {
+    log('❗ No se puede mover: entidad no disponible aún.');
+    return;
+  }
+
+  if (moveInterval) clearInterval(moveInterval);
+
+  log('🚶 Iniciando movimiento hacia adelante...');
+
+  moveInterval = setInterval(() => {
+    // Avanza en Z positivo (puedes ajustar según la dirección que desees)
+    position.z += 0.3;
+
+    client.queue('player_move', {
+      position,
+      rotation: { x: 0, y: 0 },
+      onGround: true,
+      mode: 0,
+      teleportCause: 0,
+      entityRuntimeId: client.entity.runtime_id
+    });
+
+    log(`➡️ Posición actual: x=${position.x.toFixed(2)}, y=${position.y.toFixed(2)}, z=${position.z.toFixed(2)}`);
+  }, 500); // Mueve cada 0.5s
+}
+
+// Servidor HTTP para mantener vivo el proceso
 const PORT = process.env.PORT || 3000;
 http.createServer((req, res) => {
   res.writeHead(200);
-  res.end('Bot is alive');
+  res.end('✅ Bot is alive');
 }).listen(PORT, () => {
   log(`🌐 Servidor HTTP activo en puerto ${PORT}`);
 });
 
-// Iniciar bot
+// Iniciar el bot
 connectBot();
