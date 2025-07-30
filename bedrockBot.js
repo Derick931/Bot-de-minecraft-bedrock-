@@ -4,7 +4,7 @@ const http = require('http');
 const SERVER_HOST = 'olivia.hidencloud.com';
 const SERVER_PORT = 24707;
 const USERNAME = 'bot_user';
-const VERSION = '1.21.94'; // Usa la versión real del server
+const VERSION = '1.21.93'; // Usa la versión real del server
 
 let client;
 let pingInterval = null;
