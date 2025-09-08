@@ -1,10 +1,10 @@
 const bedrock = require('bedrock-protocol');
 const http = require('http');
 
-const SERVER_HOST = 'se_parternos.aternos.me';
-const SERVER_PORT = 31711;
+const SERVER_HOST = 'toby.hidencloud.com';
+const SERVER_PORT = 24600;
 const USERNAME = 'bot_user';
-const VERSION = '1.21.93'; // Usa la versión real del server
+const VERSION = '1.21.102.1'; // Usa la versión real del server
 
 let client;
 let pingInterval = null;
