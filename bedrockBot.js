@@ -4,7 +4,7 @@ const http = require('http');
 const SERVER_HOST = 'toby.hidencloud.com';
 const SERVER_PORT = 24600;
 const USERNAME = 'bot_user';
-const VERSION = '1.21.102.1'; // Usa la versión real del server
+const VERSION = '1.21.101'; // Usa la versión real del server
 
 let client;
 let pingInterval = null;
